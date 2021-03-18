@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     'use strict';
+
     // options menu
     const optionsMenu = () => {
         const burgerBtn = document.getElementById('burgerBtn'),
@@ -100,4 +101,91 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     optionsMenu();
+
+    // search
+    const search = () => {
+        const searchBtn = document.getElementById('searchBtn'),
+              searchInput = document.getElementById('searchInput');
+
+        let showSearchCounter = 0;
+
+        const showSearchInput = () => {
+            const showInputId = requestAnimationFrame(showSearchInput);
+
+            searchInput.style.display = 'flex';
+            showSearchCounter += 40;
+            searchInput.style.width = `${showSearchCounter}px`;
+
+            if ( parseFloat(getComputedStyle(searchInput).getPropertyValue('width')) >= 300 ) {
+                cancelAnimationFrame(showInputId);
+                showSearchCounter = 0;
+            }
+
+        };
+
+        const hideSearchInput = () => {
+            const hideInputId = requestAnimationFrame(hideSearchInput);
+
+            showSearchCounter += 30;
+            searchInput.style.width = `${300 - showSearchCounter}px`;
+
+            if ( parseFloat(getComputedStyle(searchInput).getPropertyValue('width')) <= 10 ) {
+                cancelAnimationFrame(hideInputId);
+                searchInput.style.display = 'none';
+                showSearchCounter = 0;
+            }
+        };
+
+        document.addEventListener('click', (event) => {
+            let target = event.target;
+
+            if (target.closest('#searchBtn')) {
+                requestAnimationFrame(showSearchInput);
+            } else if ( !target.closest('#searchBtn') && !target.closest('#searchInput') ) {
+                requestAnimationFrame(hideSearchInput);
+            }
+        });
+    };
+
+    search();
+
+    // logo decoration
+    const logoDecorate = () => {
+        const logo = document.getElementById('logo'),
+              logoFirst = document.getElementById('logoFirst'),
+              logoSecond = document.getElementById('logoSecond');
+
+        logo.addEventListener('mouseover', () => {
+
+            [logoFirst.style.fontWeight, logoSecond.style.fontWeight] = 
+            [getComputedStyle(logoSecond).getPropertyValue('font-weight'), 
+            getComputedStyle(logoFirst).getPropertyValue('font-weight')];
+
+        });
+    };
+
+    logoDecorate();
+
+    // get JSON
+    const getJSON = () => {
+        const request = new XMLHttpRequest();
+
+        request.addEventListener('readystatechange', () => {
+            if (request.readyState !== 4) {
+                return;
+            }
+
+            if (request.status === 200 ) {
+                console.log(JSON.parse(request.responseText));
+            } else {
+                console.log('error');
+            }
+        });
+
+        request.open('GET', './db/dbHeroes.json');
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send();
+    };
+
+    getJSON();
 });
