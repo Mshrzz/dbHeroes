@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>dbHeroes</title>
+</head>
+<body>
+    <div class="header">
+        <span class="logo header__logo" id="logo">
+            <span class="logo__first" id="logoFirst">DB-</span><span class="logo__second" id="logoSecond">Heroes</span>
+        </span>
+        <div class="header__search" id="searchBtn">
+            <img src="img/search-btn.svg" alt="Search btn">
+        </div>
+    </div>
+    <!-- /.header -->
+    <div class="options">
+        <div class="burger-elem options__burger-elem" id="burgerBtn">
+            <div class="burger-elem__elem"></div>
+            <div class="burger-elem__elem"></div>
+            <div class="burger-elem__elem"></div>
+        </div>
+        <!-- /.options__burger-elem -->
+        <div class="settings options__settings">
+            <div class="theme settings__theme">
+                <span class="theme__title">Theme</span>
+                <div class="theme__icon">
+                    <img src="./img/sun.svg" alt="Light theme">
+                </div>
+            </div>
+            <!-- /.settings__theme -->
+            <div class="filter settings__filter">
+                <span class="filter__title">Filter</span>
+                <div class="film filter__film">
+                    <div class="film__title">
+                        <span class="film__title-text">Film</span>
+                    </div>
+                    <!-- /.film__title -->
+                    <select name="films" id="filmsSelect" class="film__select">
+                        <option value="one">Film one</option>
+                        <option value="two">Film two</option>
+                    </select>
+                </div>
+                <!-- /.filter__film -->
+                <div class="person-status filter__person-status">
+                    <div class="person-status__title">
+                        <span class="person-status__title-text">Status</span>
+                    </div>
+                    <!-- /.person-status__title -->
+                    <form class="form person-status__form">
+
+                        <div class="form__status">
+                            <input type="radio" id="aliveStatus" name="alive" value="Alive">
+                            <label for="aliveStatus">Alive</label>
+                        </div>
+
+                        <div class="form__status">
+                            <input type="radio" id="deathStatus" name="alive" value="Deceased">
+                            <label for="deathStatus">Deceased</label>
+                        </div>
+
+                    </form>
+                </div>
+                <!-- /.filter__person-status -->
+                <div class="filter__button">
+                    Apply
+                </div>
+            </div>
+            <!-- /.settings__filter -->
+        </div>
+        <!-- /.options__settings -->
+    </div>
+    <!-- /.options -->
+    <div class="content">
+
+    </div>
+    <!-- /.content -->
+
+    <script src="index.js" defer></script>
+    
+</body>
+</html>

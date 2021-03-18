@@ -1,0 +1,252 @@
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('./fonts/CenturyGothic.eot');
+    src: url('./fonts/CenturyGothic.woff') format('woff'),
+    url('./fonts/CenturyGothic.ttf') format('truetype');
+
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('./fonts/CenturyGothic-Bold.eot');
+    src: url('./fonts/CenturyGothic-Bold.woff') format('woff'),
+    url('./fonts/CenturyGothic-Bold.ttf') format('truetype');
+
+    font-weight: bold;
+    font-style: normal;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #323652;
+    font-family: 'Century Gothic';
+    color: #ffffff;
+}
+
+.header {
+    position: absolute;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0px 20px;
+    width: 100%;
+    height: 70px;
+    background-color: #454A74;
+    box-shadow: -4px 4px 4px rgba(34, 36, 55, 0.25);
+}
+
+.header__search {
+    max-width: 40px;
+    max-height: 40px;
+    margin: 0 20px;
+}
+
+.header__search img {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.logo {
+    transition: 0.5s;
+    font-size: 32px;
+    cursor: pointer;
+}
+
+.logo__first {
+    font-weight: bold;
+}
+
+.logo__second {
+    font-weight: normal;
+}
+
+.options {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 70px;
+    height: 100%;
+    background-color: #454A74;
+    box-shadow: 4px 0px 4px rgba(34, 36, 55, 0.25);
+}
+
+.burger-elem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 60px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.burger-elem__elem {
+    width: 40px;
+    height: 5px;
+    background-color: #fff;
+    margin-bottom: 5px;
+}
+
+.settings {
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.settings__theme {
+    margin-top: 100px;
+}
+
+.theme {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.theme__title {
+    font-size: 22px;
+    margin-right: 15px;
+}
+
+.theme__icon {
+    max-width: 50px;
+    max-height: 50px;
+    cursor: pointer;
+}
+
+.theme__icon img {
+    width: 100%;
+    height: 100%;
+}
+
+.settings__filter {
+    margin-top: 40px;
+}
+
+.filter {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.filter__title {
+    font-size: 26px;
+}
+
+.filter__film {
+    margin-top: 20px;
+}
+
+.film__title-text {
+    font-size: 22px;
+}
+
+.film__title {
+    width: 200px;
+    border-bottom: 2px solid #fff;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+}
+
+.film__select {
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    width: 200px;
+    height: 30px;
+    outline: none;
+}
+
+.film__select option {
+    background-color: #323761;
+}
+
+.filter__person-status {
+    margin-top: 20px;
+}
+
+.person-status__title {
+    width: 200px;
+    border-bottom: 2px solid #fff;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+}
+
+.person-status__title-text {
+    font-size: 22px;
+}
+
+.person-status__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form__status {
+    font-size: 19px;
+}
+
+.form__status input {
+    display: none;
+}
+
+.form__status label {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 0px;
+    line-height: 30px;
+    user-select: none;
+}
+
+.form__status label::before {
+    content: '';
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    left: 0;
+    bottom: 7px;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+.form__status input:checked + label:before {
+    transition: 0.3s;
+	background-color: #323761;
+}
+
+.filter__button {
+    margin-top: 30px;
+    width: 150px;
+    height: 40px;
+    font-size: 20px;
+    background-color: transparent;
+    border: 2px solid #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.filter__button:hover {
+    transition: 0.8s;
+    background-color: #fff;
+    color: #454A74;
+}
