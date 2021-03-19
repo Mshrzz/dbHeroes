@@ -168,24 +168,111 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // get JSON
     const getJSON = () => {
-        const request = new XMLHttpRequest();
 
-        request.addEventListener('readystatechange', () => {
-            if (request.readyState !== 4) {
-                return;
-            }
+        return new Promise( (resolve, reject) => {
+            const request = new XMLHttpRequest();
 
-            if (request.status === 200 ) {
-                console.log(JSON.parse(request.responseText));
-            } else {
-                console.log('error');
-            }
-        });
-
-        request.open('GET', './db/dbHeroes.json');
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.send();
+            request.addEventListener('readystatechange', () => {
+                if (request.readyState !== 4) {
+                    return;
+                }
+    
+                if (request.status === 200 ) {
+                    resolve(JSON.parse(request.responseText));
+                } else {
+                    reject(request.status);
+                }
+            });
+    
+            request.open('GET', './db/dbHeroes.json');
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.send();
+        } );
     };
 
     getJSON();
+
+    const createCards = () => {
+        
+        const cardTemplate = (elem) => {
+            let card = document.createElement('div');
+            card.classList.add('card');
+            card.innerHTML = `<div class="heading card__heading">
+                                <div class="heading__img">
+                                    <img src="./db/${elem.photo}" alt="Hero photo">
+                                </div>
+                                <div class="title heading__title">
+                                    <span class="title__name">${elem.name}</span>
+                                    <div class="real-name title__real-name">
+                                        <span class="real-name__name">${elem.realName ? elem.realName : elem.name}</span>
+                                    </div>
+                                </div>
+                              </div>
+                              <span class="card__more-info">
+                                ${elem.species ? elem.species[0].toUpperCase() + elem.species.substring(1) : ''} 
+                                ${elem.citizenship ? ', ' + elem.citizenship.toLowerCase() : ''} 
+                                ${', ' + elem.gender.toLowerCase()}
+                                ${elem.birthDay ? ', ' + elem.birthDay : ''}
+                              </span>
+                              <div class="live-status card__live-status">
+                                <img src=${elem.status === 'alive' ? './img/heart.svg' : './img/death.svg'} alt="status" class="live-status__img">
+                                <span class="live-status__text">${elem.status[0].toUpperCase() + elem.status.substring(1)}</span>
+                              </div>
+                              <div class="card__border"></div>
+                              <span class="card__actor-title">Actor</span>
+                              <span class="card__actor-name">${elem.actors}</span>
+                              <span class="card__movies-title">Movies</span>
+                              <ul class="movies-list card__movies-list">
+
+                              </ul>`;
+            
+            document.querySelector('.content').append(card);
+
+            // elem.movies.forEach((item) => {
+            //     let listItem = document.createElement('li');
+            //     listItem.classList.add('movies-list__elem');
+            //     listItem.textContent = item;
+            //     document.querySelector('.movies-list').append(listItem);
+            // });
+        };
+
+        getJSON()
+        .then((request) => {
+            console.log(request);
+            request.forEach((item) => {
+                cardTemplate(item);
+            });
+            return request;
+        })
+        .then((request2) => {
+        
+            request2.forEach((elem, i) => {
+
+                console.log(elem.movies);
+                let cardUl = document.querySelectorAll('.movies-list');
+
+                if (elem.movies === undefined) {
+                    console.log('empty');
+                } else {
+
+                    for (let movie of elem.movies) {
+
+                        let listItem = document.createElement('li');
+                        listItem.classList.add('movies-list__elem');
+                        listItem.textContent = movie;
+                        cardUl[i].append(listItem);
+    
+                    }
+
+                }
+
+            });
+        })
+        .catch((reject) => {
+            console.warn(reject);
+        });
+    };
+
+    createCards();
+
 });

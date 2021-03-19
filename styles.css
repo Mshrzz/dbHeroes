@@ -86,7 +86,8 @@ body {
 }
 
 .options {
-    position: absolute;
+    position: fixed;
+    z-index: 10;
     top: 0;
     left: 0;
     display: flex;
@@ -269,6 +270,110 @@ body {
 }
 
 .content {
+    padding-left: 200px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: auto;
+    margin-top: 100px;
 }
 
 /* filter: blur(5px) */
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 330px;
+    height: 520px;
+    background-color: #454A74;
+    margin: 20px;
+    padding: 15px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    filter: drop-shadow(4px 4px 7px rgba(0, 0, 0, 0.25));
+}
+
+.card__heading {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+}
+
+.heading__title {
+    text-align: center;
+}
+
+.title__name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.heading__img {
+    width: 85px;
+    height: 90px;
+    margin-right: 30px;
+    filter: drop-shadow(4px 4px 9px rgba(0, 0, 0, 0.25));
+}
+
+.heading__img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 76px;
+}
+
+.title__real-name {
+    color: #929292;
+    margin-top: 10px;
+    margin-left: -15px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 170px;
+    height: 40px;
+    background-color: #323761;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.card__more-info {
+    font-weight: bold;
+}
+
+.card__live-status {
+    font-weight: bold;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 20px;
+}
+
+.card__border {
+    position: absolute;
+    top: 40%;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: #323761;
+    box-shadow: 0px 0.2px 3px rgba(0, 0, 0, 0.25);
+}
+
+.card__actor-title {
+    font-weight: bold;
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+.card__actor-name {
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+.card__movies-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
