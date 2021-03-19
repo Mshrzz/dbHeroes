@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const showBlockId = requestAnimationFrame(showFullOptionsBlock);
 
+            document.querySelector('.content').style.filter = `blur(${widthOptionsBlockCounter/100}px)`;
+
             widthOptionsBlockCounter += 20;
 
             optionsBlock.style.paddingLeft = '15px';
@@ -60,6 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const hideFullOptionsBlock = () => {
             const hideBlockId = requestAnimationFrame(hideFullOptionsBlock);
+
+            document.querySelector('.content').style.filter = 'blur(0px)';
 
             optionsMenuElems.style.display = 'none';
 
@@ -197,6 +201,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const cardTemplate = (elem) => {
             let card = document.createElement('div');
             card.classList.add('card');
+
+            // push info of persons
+            let cardInfoList = [elem.species, elem.citizenship, elem.gender, elem.birthDay],
+                pushInfoList = [];
+
+            for (let i = 0; i < cardInfoList.length; i++) {
+                if (cardInfoList[i] !== undefined) {
+                    pushInfoList.push(cardInfoList[i][0].toUpperCase() + cardInfoList[i].substring(1));
+                }
+            }
+
             card.innerHTML = `<div class="heading card__heading">
                                 <div class="heading__img">
                                     <img src="./db/${elem.photo}" alt="Hero photo">
@@ -209,14 +224,14 @@ document.addEventListener('DOMContentLoaded', () => {
                                 </div>
                               </div>
                               <span class="card__more-info">
-                                ${elem.species ? elem.species[0].toUpperCase() + elem.species.substring(1) : ''} 
-                                ${elem.citizenship ? ', ' + elem.citizenship.toLowerCase() : ''} 
-                                ${', ' + elem.gender.toLowerCase()}
-                                ${elem.birthDay ? ', ' + elem.birthDay : ''}
+                                ${pushInfoList.join(', ')}
                               </span>
                               <div class="live-status card__live-status">
-                                <img src=${elem.status === 'alive' ? './img/heart.svg' : './img/death.svg'} alt="status" class="live-status__img">
-                                <span class="live-status__text">${elem.status[0].toUpperCase() + elem.status.substring(1)}</span>
+                                <img src="./img/${elem.status}.svg" alt="status" class="live-status__img">
+                                <span class="live-status__text">
+                                    ${elem.status[0].toUpperCase() + elem.status.substring(1)}
+                                    ${elem.status === 'deceased' && elem.deathDay? ', ' + elem.deathDay : ''}
+                                </span>
                               </div>
                               <div class="card__border"></div>
                               <span class="card__actor-title">Actor</span>
@@ -227,13 +242,6 @@ document.addEventListener('DOMContentLoaded', () => {
                               </ul>`;
             
             document.querySelector('.content').append(card);
-
-            // elem.movies.forEach((item) => {
-            //     let listItem = document.createElement('li');
-            //     listItem.classList.add('movies-list__elem');
-            //     listItem.textContent = item;
-            //     document.querySelector('.movies-list').append(listItem);
-            // });
         };
 
         getJSON()
@@ -252,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let cardUl = document.querySelectorAll('.movies-list');
 
                 if (elem.movies === undefined) {
-                    console.log('empty');
+                    cardUl[i].textContent = 'No movies with this character have been found';
                 } else {
 
                     for (let movie of elem.movies) {
