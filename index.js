@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const showBlockId = requestAnimationFrame(showFullOptionsBlock);
 
-            document.querySelector('.content').style.filter = `blur(${widthOptionsBlockCounter/100}px)`;
+            document.querySelector('.content').style.filter = 'blur(5px)';
 
             widthOptionsBlockCounter += 20;
 
@@ -196,57 +196,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
     getJSON();
 
-    const createCards = () => {
-        
-        const cardTemplate = (elem) => {
-            let card = document.createElement('div');
-            card.classList.add('card');
+    // Card Template
+    const cardTemplate = (elem) => {
+        let card = document.createElement('div');
+        card.classList.add('card');
 
-            // push info of persons
-            let cardInfoList = [elem.species, elem.citizenship, elem.gender, elem.birthDay],
-                pushInfoList = [];
+        // push info of persons
+        let cardInfoList = [elem.species, elem.citizenship, elem.gender, elem.birthDay],
+            pushInfoList = [];
 
-            for (let i = 0; i < cardInfoList.length; i++) {
-                if (cardInfoList[i] !== undefined) {
-                    pushInfoList.push(cardInfoList[i][0].toUpperCase() + cardInfoList[i].substring(1));
-                }
+        for (let i = 0; i < cardInfoList.length; i++) {
+            if (cardInfoList[i] !== undefined) {
+                pushInfoList.push(cardInfoList[i][0].toUpperCase() + cardInfoList[i].substring(1));
             }
+        }
 
-            card.innerHTML = `<div class="heading card__heading">
-                                <div class="heading__img">
-                                    <img src="./db/${elem.photo}" alt="Hero photo">
+        card.innerHTML = `<div class="heading card__heading">
+                            <div class="heading__img">
+                                <img src="./db/${elem.photo}" alt="Hero photo">
+                            </div>
+                            <div class="title heading__title">
+                                <span class="title__name">${elem.name}</span>
+                                <div class="real-name title__real-name">
+                                    <span class="real-name__name">${elem.realName ? elem.realName : elem.name}</span>
                                 </div>
-                                <div class="title heading__title">
-                                    <span class="title__name">${elem.name}</span>
-                                    <div class="real-name title__real-name">
-                                        <span class="real-name__name">${elem.realName ? elem.realName : elem.name}</span>
-                                    </div>
-                                </div>
-                              </div>
-                              <span class="card__more-info">
-                                ${pushInfoList.join(', ')}
-                              </span>
-                              <div class="live-status card__live-status">
-                                <img src="./img/${elem.status}.svg" alt="status" class="live-status__img">
-                                <span class="live-status__text">
-                                    ${elem.status[0].toUpperCase() + elem.status.substring(1)}
-                                    ${elem.status === 'deceased' && elem.deathDay? ', ' + elem.deathDay : ''}
-                                </span>
-                              </div>
-                              <div class="card__border"></div>
-                              <span class="card__actor-title">Actor</span>
-                              <span class="card__actor-name">${elem.actors}</span>
-                              <span class="card__movies-title">Movies</span>
-                              <ul class="movies-list card__movies-list">
+                            </div>
+                          </div>
+                          <span class="card__more-info">
+                            ${pushInfoList.join(', ')}
+                          </span>
+                          <div class="live-status card__live-status">
+                            <img src="./img/${elem.status}.svg" alt="status" class="live-status__img">
+                            <span class="live-status__text">
+                                ${elem.status[0].toUpperCase() + elem.status.substring(1)}
+                                ${elem.status === 'deceased' && elem.deathDay? ', ' + elem.deathDay : ''}
+                            </span>
+                          </div>
+                          <div class="card__border"></div>
+                          <span class="card__actor-title">Actor</span>
+                          <span class="card__actor-name">${elem.actors}</span>
+                          <span class="card__movies-title">Movies</span>
+                          <ul class="movies-list card__movies-list">
 
-                              </ul>`;
-            
-            document.querySelector('.content').append(card);
-        };
+                          </ul>`;
+        
+        document.querySelector('.content').append(card);
+    };
+
+    // createCards
+    const createCards = () => {
 
         getJSON()
         .then((request) => {
-            console.log(request);
             request.forEach((item) => {
                 cardTemplate(item);
             });
@@ -256,7 +257,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
             request2.forEach((elem, i) => {
 
-                console.log(elem.movies);
                 let cardUl = document.querySelectorAll('.movies-list');
 
                 if (elem.movies === undefined) {
@@ -282,5 +282,158 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     createCards();
+
+    // Add filter movies
+    const addfilterMovies = () => {
+        const filmSelect = document.getElementById('filmsSelect');
+
+        getJSON()
+        .then((response) => {
+            const movies = response.reduce((acc, item) => acc.concat(item.movies), []),
+                  filterMovies = movies.filter((item, i) => (movies.indexOf(item) === i) && item !== undefined);
+
+            filterMovies.forEach((item) => {
+                const movieOpt = document.createElement('option');
+                movieOpt.textContent = item;
+                filmSelect.append(movieOpt); 
+            });
+
+        })
+        .catch((reject) => {
+            console.warn(reject);
+        });
+
+    };
+
+    addfilterMovies();
+
+    // filter content
+    const filterContent = () => {
+        const filmSelect = document.getElementById('filmsSelect'),
+              aliveStatus = document.getElementById('aliveStatus'),
+              deathStatus = document.getElementById('deathStatus'),
+              allStatus = document.getElementById('allStatus'),
+              filterBtn = document.querySelector('.filter__button'),
+              contentArea = document.querySelector('.content');
+
+        filterBtn.addEventListener('click', () => {
+            const selectedFilm = filmSelect.options[filmSelect.options.selectedIndex].textContent,
+                  isAliveChecked = aliveStatus.checked,
+                  isDeathChecked = deathStatus.checked,
+                  isAllStatus = allStatus.checked;
+
+            getJSON()
+            .then((response) => {
+                if ( selectedFilm === 'None' && ( !isAliveChecked && !isDeathChecked ) ) {
+
+                    contentArea.textContent = '';
+                    createCards();
+
+                } else {
+
+                    if ( selectedFilm !== 'None' ) {
+
+                        contentArea.textContent = '';
+
+                        let filterData = [];
+    
+                        response.forEach((elem) => {
+                            if (elem.movies !== undefined) {
+                                if ( elem.movies.indexOf(selectedFilm) !== -1 ) {
+                                    filterData.push(elem);
+                                }
+                            }
+                        });
+    
+                        if ( !isAliveChecked && !isDeathChecked ) {
+    
+                            filterData.forEach((item) => {
+                                cardTemplate(item);
+                            });
+    
+                        } else {
+    
+                            let unselectedStatus = !isAliveChecked ? 'alive' : 'deceased';
+    
+                            const filterData2 = filterData.filter((item) => item.status !== unselectedStatus);
+    
+                            filterData2.forEach((item) => {
+                                cardTemplate(item);
+                            });
+    
+                        }
+
+                    } else {
+
+                        contentArea.textContent = '';
+
+                        if ( isAllStatus ) {
+                            createCards();
+                        }
+
+                        let filterData = [];
+
+                        let unselectedStatus = !isAliveChecked ? 'alive' : 'deceased';
+
+                        response.forEach((elem) => {
+                            if (elem.movies !== undefined) {
+
+                                if ( elem.status !== unselectedStatus ) {
+                                    filterData.push(elem);
+                                }
+                            }
+                        });
+
+                        filterData.forEach((item) => {
+                            cardTemplate(item);
+                        });
+
+                    }
+
+                }
+
+                return response;
+            })
+            .then((response2) => {
+        
+                response2.forEach((elem, i) => {
+    
+                    let cardUl = document.querySelectorAll('.movies-list');
+    
+                    if (elem.movies === undefined) {
+                        
+                        if (cardUl[i] !== undefined) {
+                            cardUl[i].textContent = 'No movies with this character have been found';
+                        }
+
+                    } else {
+    
+                        for (let movie of elem.movies) {
+    
+                            let listItem = document.createElement('li');
+                            listItem.classList.add('movies-list__elem');
+                            listItem.textContent = movie;
+
+                            if ( cardUl[i] === undefined ) {
+                                continue;
+                            }
+
+                            cardUl[i].append(listItem);
+        
+                        }
+    
+                    }
+    
+                });
+            })
+            .catch((reject) => {
+                console.warn(reject);
+            });
+
+            
+        });
+    };
+
+    filterContent();
 
 });
