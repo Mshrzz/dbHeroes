@@ -436,4 +436,77 @@ document.addEventListener('DOMContentLoaded', () => {
 
     filterContent();
 
+    // Search content
+    const searchContent = () => {
+
+        function debounce(f, t) {
+            return function (args) {
+              let previousCall = this.lastCall;
+              this.lastCall = Date.now();
+              if (previousCall && ((this.lastCall - previousCall) <= t)) {
+                clearTimeout(this.lastCallTimer);
+              }
+              this.lastCallTimer = setTimeout(() => f(args), t);
+            }
+        }
+
+        const searchInput = document.getElementById('searchInput'),
+              contentArea = document.querySelector('.content'),
+              callInput = () => {
+
+                  console.log(searchInput.value);
+
+                  getJSON()
+                  .then((response) => {
+
+                    let filterNames = [];
+
+                    response.forEach((elem) => {
+
+                        if ( elem.name.toLowerCase().indexOf(searchInput.value.toLowerCase()) !== -1 ) {
+                            filterNames.push(elem);
+                        }
+                    });
+
+                    return filterNames;
+
+                  })
+                  .then((response2) => {
+                    console.log(response2);
+                    contentArea.textContent = '';
+                    response2.forEach(item => cardTemplate(item));
+                    return response2;
+                  })
+                  .then((response3) => {
+                    
+                    response3.forEach((elem, i) => {
+
+                        let cardUl = document.querySelectorAll('.movies-list');
+        
+                        if (elem.movies === undefined) {
+                            cardUl[i].textContent = 'No movies with this character have been found';
+                        } else {
+        
+                            for (let movie of elem.movies) {
+        
+                                let listItem = document.createElement('li');
+                                listItem.classList.add('movies-list__elem');
+                                listItem.textContent = movie;
+                                cardUl[i].append(listItem);
+            
+                            }
+        
+                        }
+        
+                    });
+                                     
+                  })
+                  .catch((reject) => console.warn(reject));
+              };
+
+        searchInput.addEventListener('input', debounce(callInput, 600));
+    };
+
+    searchContent();
+
 });
