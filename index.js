@@ -146,6 +146,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target.closest('#searchBtn')) {
                 requestAnimationFrame(showSearchInput);
             } else if ( !target.closest('#searchBtn') && !target.closest('#searchInput') ) {
+                searchInput.value = '';
+                
                 requestAnimationFrame(hideSearchInput);
             }
         });
