@@ -456,8 +456,6 @@ document.addEventListener('DOMContentLoaded', () => {
               contentArea = document.querySelector('.content'),
               callInput = () => {
 
-                  console.log(searchInput.value);
-
                   getJSON()
                   .then((response) => {
 
@@ -474,7 +472,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                   })
                   .then((response2) => {
-                    console.log(response2);
                     contentArea.textContent = '';
                     response2.forEach(item => cardTemplate(item));
                     return response2;
@@ -521,8 +518,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 rootElem.style.setProperty('--color-background', '#E2E1E1');
                 rootElem.style.setProperty('--color-primary', '#6E3FAA');
                 rootElem.style.setProperty('--color-text', '#FFFFFF');
-                rootElem.style.setProperty('--color-hide-text', '#000000');
-                rootElem.style.setProperty('--color-border-block', '#E2E1E1');
+                rootElem.style.setProperty('--color-hide-text', '#575757');
+                rootElem.style.setProperty('--color-border-block', '#C8B7CE');
               },
               setDarkColors = () => {
                 rootElem.style.setProperty('--color-background', '#323652');
@@ -539,12 +536,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 lightBtn.style.display = 'none';
                 darkBtn.style.display = 'flex';
 
+                document.querySelectorAll('.live-status__img').forEach((element) => {
+                    let newsrc = element.src.replace(/(.svg)/, '_light.svg');
+                    element.src = newsrc;
+                });
+
                 setLightColors();
 
             } else if (event.target.closest('#darkTheme')) {
                 
                 lightBtn.style.display = 'flex';
                 darkBtn.style.display = 'none';
+
+
+                document.querySelectorAll('.live-status__img').forEach((element) => {
+                    let newsrc = element.src.replace(/(_light.svg)/, '.svg');
+                    element.src = newsrc;
+                });
 
                 setDarkColors();
             }
