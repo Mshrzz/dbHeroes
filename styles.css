@@ -17,7 +17,7 @@
     font-weight: bold;
     font-style: normal;
 }
-
+/* Set color scheme */
 :root {
     --color-background: #323652;
     --color-primary: #454A74;
@@ -35,7 +35,7 @@ body {
     font-family: 'Century Gothic';
     color: var(--color-text);
 }
-
+/* Header block styles */
 .header {
     position: absolute;
     top: 0;
@@ -92,7 +92,7 @@ body {
     color: var(--color-text);
     opacity: 0.7;
 }
-
+/* Set options block styles */
 .options {
     position: fixed;
     z-index: 10;
@@ -202,7 +202,7 @@ body {
 }
 
 .film__select option {
-    background-color: var(--color-background);
+    background-color: var(--color-primary);
 }
 
 .filter__person-status {
@@ -301,7 +301,7 @@ body {
     background-color: var(--color-text);
     color: var(--color-primary);
 }
-
+/* Styles for content */
 .content {
     padding-left: 200px;
     display: flex;
@@ -310,9 +310,7 @@ body {
     margin: auto;
     margin-top: 100px;
 }
-
-/* filter: blur(5px) */
-
+/* Styles for card template, generated in JS */
 .card {
     position: relative;
     display: flex;
