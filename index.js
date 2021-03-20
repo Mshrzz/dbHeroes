@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 requestAnimationFrame(showSearchInput);
             } else if ( !target.closest('#searchBtn') && !target.closest('#searchInput') ) {
                 searchInput.value = '';
-                
+
                 requestAnimationFrame(hideSearchInput);
             }
         });
@@ -510,5 +510,48 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     searchContent();
+
+    // Change theme
+    const changeTheme = () => {
+        const themeBtn = document.getElementById('themeType'),
+              lightBtn = document.getElementById('lightTheme'),
+              darkBtn = document.getElementById('darkTheme'),
+              rootElem = document.querySelector(':root'),
+              setLightColors = () => {
+                rootElem.style.setProperty('--color-background', '#E2E1E1');
+                rootElem.style.setProperty('--color-primary', '#6E3FAA');
+                rootElem.style.setProperty('--color-text', '#FFFFFF');
+                rootElem.style.setProperty('--color-hide-text', '#000000');
+                rootElem.style.setProperty('--color-border-block', '#E2E1E1');
+              },
+              setDarkColors = () => {
+                rootElem.style.setProperty('--color-background', '#323652');
+                rootElem.style.setProperty('--color-primary', '#454A74');
+                rootElem.style.setProperty('--color-text', '#fff');
+                rootElem.style.setProperty('--color-hide-text', '#929292');
+                rootElem.style.setProperty('--color-border-block', '#323761');
+              };
+
+        themeBtn.addEventListener('click', (event) => {
+
+            if (event.target.closest('#lightTheme')) {
+
+                lightBtn.style.display = 'none';
+                darkBtn.style.display = 'flex';
+
+                setLightColors();
+
+            } else if (event.target.closest('#darkTheme')) {
+                
+                lightBtn.style.display = 'flex';
+                darkBtn.style.display = 'none';
+
+                setDarkColors();
+            }
+
+        });
+    };
+
+    changeTheme();
 
 });
