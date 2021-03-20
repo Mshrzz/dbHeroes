@@ -309,8 +309,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addfilterMovies();
 
+    // Reset button
+    const resetButton = () => {
+        const resetBtn = document.querySelector('.reset__button'),
+              contentArea = document.querySelector('.content');
+        
+        resetBtn.addEventListener('click', () => {
+            const filmSelect = document.getElementById('filmsSelect'),
+                  aliveStatus = document.getElementById('aliveStatus'),
+                  deathStatus = document.getElementById('deathStatus');
+
+            filmSelect.options[0].selected = true;
+
+            aliveStatus.checked = false;
+            deathStatus.checked = false;
+
+            contentArea.textContent = '';
+            createCards();
+        });
+    };
+
+    resetButton();
+
     // filter content
     const filterContent = () => {
+
         const filmSelect = document.getElementById('filmsSelect'),
               aliveStatus = document.getElementById('aliveStatus'),
               deathStatus = document.getElementById('deathStatus'),
@@ -319,11 +342,64 @@ document.addEventListener('DOMContentLoaded', () => {
               contentArea = document.querySelector('.content');
 
         filterBtn.addEventListener('click', () => {
+
             const selectedFilm = filmSelect.options[filmSelect.options.selectedIndex].textContent,
                   isAliveChecked = aliveStatus.checked,
                   isDeathChecked = deathStatus.checked,
                   isAllStatus = allStatus.checked;
 
+            // const card = document.querySelectorAll('.card');
+            // const filterData = [];
+            // let radioFilterData = [];
+
+            // card.forEach((item) => {
+
+            //     // Is selected film not equal 'None', filter by films
+            //     if ( selectedFilm !== 'None') {
+
+            //         item.querySelectorAll('li').forEach((subItem) => {
+
+            //                 if (subItem.textContent.indexOf(selectedFilm) !== -1) {
+            //                     filterData.push(item);
+            //                 }
+
+            //         });
+            //     }
+
+            //     // TODO:
+            //     // Сделать проверку на радио кнопки
+            //     // Если вошедший в filterData элемент не подходит под новый фильтр - удалить его оттуда
+            //     // Тк итерация одна и та же, то это делается просто командой remove 
+            //     // All вообще, наверное, удалить
+            //     // Написав и убедившись, что все работает - переписать search аналогично
+            //     // То есть использовать уже существующие карточки
+            //     // После переписать optionsMenu и search и добавить немножко функционала
+            //     // После этого почистить код в целом и запушить финальный вариант
+
+            // });
+
+            // if ( isAliveChecked ) {
+
+            //     radioFilterData = filterData.filter( filterElem => filterElem.querySelector('.live-status__text')
+            //                                                .textContent.toLowerCase().indexOf('alive') !== -1);
+                
+            //     contentArea.textContent = '';
+            //     radioFilterData.forEach(item => contentArea.append(item));
+            //     return;
+
+            // } else if ( isDeathChecked ) {
+                
+            //     radioFilterData = filterData.filter( filterElem => filterElem.querySelector('.live-status__text')
+            //                                                                  .textContent.toLowerCase().indexOf('alive') === -1);
+
+            //     contentArea.textContent = '';
+            //     radioFilterData.forEach(item => contentArea.append(item));
+            //     return;
+            // }
+
+            // contentArea.textContent = '';
+            // filterData.forEach(item => contentArea.append(item));
+            
             getJSON()
             .then((response) => {
                 if ( selectedFilm === 'None' && ( !isAliveChecked && !isDeathChecked ) ) {
@@ -432,7 +508,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.warn(reject);
             });
 
-            
         });
     };
 
